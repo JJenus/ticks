@@ -1,0 +1,50 @@
+
+<!-- saved from url=(0011)about:blank -->
+<html><script ecommerce-type="extend-native-history-api">(() => {
+            const nativePushState = history.pushState;
+            const nativeReplaceState = history.replaceState;
+            const nativeBack = history.back;
+            const nativeForward = history.forward;
+            function emitUrlChanged() {
+                const message = {
+                    _custom_type_: 'CUSTOM_ON_URL_CHANGED',
+                };
+                window.postMessage(message);
+            }
+            history.pushState = function () {
+                nativePushState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.replaceState = function () {
+                nativeReplaceState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.back = function () {
+                nativeBack.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.forward = function () {
+                nativeForward.apply(history, arguments);
+                emitUrlChanged();
+            };
+        })()</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css" id="cliqz-adblokcer-css-rules">app-cookies, div[data-gdpr-consent-prompt], div[data-testid="cookie-policy-banner"], sibbo-cmp-layout, thor-cookies, div#__tealiumGDPRecModal, div#cookie-modal, div#cookie-popup, div#cookieConsentModal, div#privacy_policy, div.c-cookies, div.cookie-alert, div.cookie-banner, div.cookie-bar, div.cookie-consent, div.cookie-consent-modal, div.cookie-consent-popup, div.cookie-container, div.cookie-content, div.cookie-disclaimer, div.cookie-eu, div.cookie-layer, div.cookie-notice, div.cookie-notice-wrapper, div.cookie-notification, div.cookie-overlay, div.cookie-popup, div.cookie-wrapper, div.cookieHolder, div.cookies-modal-container, div.cookies-visible, div.gdpr, div.js-disclaimer, div.privacy-modal, div.privacy-notice, div.v-cookie, div.with-cookie  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.wrapper > #ot-sdk-btn, .footer > #cookie-law-info-bar, .container ~ div[data-react-class="CookieAgree"], .container.cookieinfo, .container > #cookie-law-info-bar, [href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.active.cookie, .active.cookie-banner, .active.rgpd-modal, .active.GDPR, .active.disclaimer  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">app-cookies, div[data-gdpr-consent-prompt], div[data-testid="cookie-policy-banner"], sibbo-cmp-layout, thor-cookies, div#__tealiumGDPRecModal, div#cookie-modal, div#cookie-popup, div#cookieConsentModal, div#privacy_policy, div.c-cookies, div.cookie-alert, div.cookie-banner, div.cookie-bar, div.cookie-consent, div.cookie-consent-modal, div.cookie-consent-popup, div.cookie-container, div.cookie-content, div.cookie-disclaimer, div.cookie-eu, div.cookie-layer, div.cookie-notice, div.cookie-notice-wrapper, div.cookie-notification, div.cookie-overlay, div.cookie-popup, div.cookie-wrapper, div.cookieHolder, div.cookies-modal-container, div.cookies-visible, div.gdpr, div.js-disclaimer, div.privacy-modal, div.privacy-notice, div.v-cookie, div.with-cookie  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.visible.cookies  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.fixed.cookies_law, .fixed[data-cookiebar]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style></head><body data-new-gr-c-s-check-loaded="14.1108.0" data-gr-ext-installed=""><link rel="stylesheet" href="chrome-extension://agplbamogoflhammoccnkehefjgkcncl/dist/ui/styles/notification.css"></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+  div.grammarly-desktop-integration {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+  }
+
+  div.grammarly-desktop-integration:before {
+    content: attr(data-content);
+  }
+</style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

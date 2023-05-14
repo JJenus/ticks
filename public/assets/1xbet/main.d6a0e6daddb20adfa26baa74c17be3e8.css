@@ -1,0 +1,291 @@
+.v--modal-overlay .v--modal-box.change-phone-popup {
+	overflow: visible;
+}
+.modal-phone {
+	position: relative;
+	box-sizing: border-box;
+	padding: 1.5em 3.125em 1.5em 1.5em;
+	width: calc(100% - 1.25em);
+	margin: 0 auto;
+	border-radius: 0.125em;
+	background-color: #fff;
+	font-size: 16px;
+}
+@media (min-width: 769px) {
+	.modal-phone {
+		padding: 1.5em 13.5625em 1.5em 1.5em;
+		width: 100%;
+		max-width: 33.75em;
+		margin: 0;
+		border-radius: 0.375em;
+	}
+}
+@media (min-width: 1025px) {
+	.modal-phone {
+		padding: 2.25em 13.5625em 2.25em 2.25em;
+	}
+}
+.modal-phone * {
+	box-sizing: border-box;
+}
+.modal-phone__title {
+	margin: 0em 0em 0.61111em;
+	text-transform: uppercase;
+	font-size: 1.125em;
+	color: #1c5a89;
+}
+@media (min-width: 769px) {
+	.modal-phone__title {
+		font-size: 1.25em;
+	}
+}
+.modal-phone__text {
+	margin: 0em 0em 0.92857em;
+	font-size: 0.875em;
+	color: #265076;
+}
+.modal-phone__text--error {
+	margin: 0.28571em 0em 0em;
+	line-height: 1.1;
+	color: #ff575a;
+}
+@media (min-width: 769px) {
+	.modal-phone__text--error {
+		padding-left: 1.21429em;
+	}
+}
+.modal-phone__background {
+	display: none;
+	position: absolute;
+	top: 1.875em;
+	right: -1.875em;
+}
+@media (min-width: 769px) {
+	.modal-phone__background {
+		display: block;
+	}
+}
+.modal-phone__background--top {
+	top: 0.75em;
+}
+.modal-phone__button {
+	padding: 0;
+	margin: 0;
+	outline: none;
+	border: none;
+	font-size: inherit;
+	transition: 0.2s ease-in-out;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.modal-phone__close {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;
+	cursor: pointer;
+	width: 0.9375em;
+	height: 0.9375em;
+	background-color: transparent;
+	color: #265076;
+}
+@media (min-width: 1025px) {
+	.modal-phone__close {
+		opacity: 0.5;
+		top: -1.5em;
+		right: -1.5em;
+		background-image: url("https://1xbet.ng/en/default/img/close-little.png");
+	}
+}
+.modal-phone__close::before {
+	content: "\f12a";
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-family: "Ionicons";
+	line-height: 1;
+	color: inherit;
+}
+@media (min-width: 1025px) {
+	.modal-phone__close::before {
+		display: none;
+	}
+}
+.modal-phone__close:hover {
+	opacity: 1;
+}
+.modal-phone-form__button {
+	padding: 0.9375em 0em;
+	width: 100%;
+	min-width: 9.75em;
+	margin-top: 1.25em;
+}
+@media (min-width: 769px) {
+	.modal-phone-form__button {
+		width: auto;
+	}
+}
+.modal-phone-form__field {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: relative;
+	padding: 0.75em 1.0625em;
+	border: 1px solid #d6dbdd;
+	background-color: #f3f2f8;
+	color: #a5a9b3;
+}
+.modal-phone-form__field--error {
+	border-color: #ff575a;
+}
+.modal-phone-form__phone {
+	padding: 0;
+	margin: 0;
+	margin-left: 1.25em;
+}
+.modal-phone-form__input {
+	padding: 0;
+	outline: none;
+	border: none;
+	background-color: transparent;
+	font: inherit;
+	color: #23507d;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.modal-phone-code {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: relative;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+.modal-phone-code__multiselect {
+	margin: 0em 0.25em;
+}
+.modal-phone-code__static {
+	display: inline-block;
+	height: 100%;
+}
+.modal-phone-multiselect {
+	color: #23507d;
+}
+.modal-phone-multiselect .multiselect__select {
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+.modal-phone-multiselect .multiselect__select::before {
+	content: "\f107";
+	position: absolute;
+	top: 40%;
+	left: 100%;
+	width: 0.625em;
+	margin-top: 0;
+	border: none;
+	font-family: FontAwesome;
+	font-size: 1em;
+	color: inherit;
+	-webkit-transform: translateY(-50%) rotate(0deg);
+	transform: translateY(-50%) rotate(0deg);
+	transition: 0.2s ease-in-out;
+}
+@media (min-width: 1025px) {
+	.modal-phone-multiselect .multiselect__select::before {
+		top: 50%;
+		height: 100%;
+	}
+}
+.modal-phone-multiselect .multiselect__tags {
+	padding: 0;
+	min-width: 1.25em;
+	height: 100%;
+	min-height: 0em;
+	border: none;
+	border-radius: 0;
+	box-shadow: inset 0 -1px 0 #254f74;
+	background-color: transparent;
+	font-size: inherit;
+}
+.modal-phone-multiselect .multiselect__single {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	padding-left: 0;
+	height: 100%;
+	min-height: 0;
+	margin-bottom: 0;
+	background-color: transparent;
+	text-align: center;
+	color: #265076;
+}
+.modal-phone-multiselect .multiselect__content-wrapper {
+	top: calc(100% + 0.8125em);
+	left: -1.125em;
+	min-width: 10.6875em;
+	margin: 0;
+	border-radius: 0;
+	border-color: #d6dbdd;
+}
+.modal-phone-multiselect .multiselect__option {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	padding: 0.875em 0.75em;
+	color: #265076;
+}
+.modal-phone-multiselect .multiselect__option--highlight,
+.modal-phone-multiselect .multiselect__option--selected,
+.modal-phone-multiselect
+	.multiselect__option--selected.multiselect__option--highlight {
+	background-color: #2175b2;
+	color: #fff;
+}
+.modal-phone-multiselect.multiselect {
+	position: static;
+	height: 100%;
+	min-height: 0;
+}
+.modal-phone-multiselect.multiselect--active .multiselect__select {
+	-webkit-transform: rotate(0deg) !important;
+	transform: rotate(0deg) !important;
+}
+.modal-phone-multiselect.multiselect--active .multiselect__select::before {
+	top: 50%;
+	-webkit-transform: translateY(-60%) rotate(-180deg);
+	transform: translateY(-60%) rotate(-180deg);
+}
+.modal-phone-multiselect.multiselect--active .multiselect__tags {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+}
+.modal-phone-multiselect.multiselect--above .multiselect__content-wrapper {
+	top: auto;
+	bottom: calc(100% + 0.8125em);
+}
+.modal-phone-form-button {
+	cursor: pointer;
+	background-color: #759d2d;
+}
+.modal-phone-form-button:hover {
+	background-color: #82b132;
+}
+.modal-phone-form-button__text {
+	text-transform: uppercase;
+	font-size: 0.875em;
+	font-weight: 400;
+	line-height: 1;
+	color: #fff;
+}

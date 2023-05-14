@@ -1,0 +1,1 @@
+(window.webpackJsonp_name_=window.webpackJsonp_name_||[]).push([[881],{4077:function(n,t,e){"use strict";e.r(t);var l={},s=e(24),u=Object(s.a)(l,(function(n,t){return(0,t._c)("button",t._g({staticClass:"btn-delete"},t.listeners),[t._t("default")],2)}),[],!0,null,null,null);t.default=u.exports}}]);

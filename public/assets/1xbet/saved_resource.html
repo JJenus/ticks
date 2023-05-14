@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)https://suphelper.com/widget/?build=1682574223929&lang=en-GB&langInited=true&mobile=true&opener=hidden -->
+<html lang="en-GB" dir="ltr"><script ecommerce-type="extend-native-history-api">(() => {
+            const nativePushState = history.pushState;
+            const nativeReplaceState = history.replaceState;
+            const nativeBack = history.back;
+            const nativeForward = history.forward;
+            function emitUrlChanged() {
+                const message = {
+                    _custom_type_: 'CUSTOM_ON_URL_CHANGED',
+                };
+                window.postMessage(message);
+            }
+            history.pushState = function () {
+                nativePushState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.replaceState = function () {
+                nativeReplaceState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.back = function () {
+                nativeBack.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.forward = function () {
+                nativeForward.apply(history, arguments);
+                emitUrlChanged();
+            };
+        })()</script><script>
+    window[Symbol.for('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')] = new (class PostClient {
+    constructor(name, destination) {
+        this.name = name;
+        this.destination = destination;
+        this.serverListeners = {};
+        this.bgRequestsListeners = {};
+        this.bgEventsListeners = {};
+        window.addEventListener('message', (message) => {
+            const data = message.data;
+            const isNotForMe = !(data.destination && data.destination === this.name);
+            const hasNotEventProp = !data.event;
+            if (isNotForMe || hasNotEventProp) {
+                return;
+            }
+            if (data.event === 'MARIO_POST_SERVER__BG_RESPONSE') {
+                const response = data.args;
+                if (this.hasBgRequestListener(response.requestId)) {
+                    try {
+                        this.bgRequestsListeners[response.requestId](response.response);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                    delete this.bgRequestsListeners[response.requestId];
+                }
+            }
+            else if (data.event === 'MARIO_POST_SERVER__BG_EVENT') {
+                const response = data.args;
+                if (this.hasBgEventListener(response.event)) {
+                    try {
+                        this.bgEventsListeners[data.id](response.payload);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }
+            }
+            else if (this.hasServerListener(data.event)) {
+                try {
+                    this.serverListeners[data.event](data.args);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+            else {
+                console.log(`event not handled: ${data.event}`);
+            }
+        });
+    }
+    emitToServer(event, args) {
+        const id = this.generateUIID();
+        const message = {
+            args,
+            destination: this.destination,
+            event,
+            id,
+        };
+        window.postMessage(message, location.origin);
+        return id;
+    }
+    emitToBg(bgEventName, args) {
+        const requestId = this.generateUIID();
+        const request = { bgEventName, requestId, args };
+        this.emitToServer('MARIO_POST_SERVER__BG_REQUEST', request);
+        return requestId;
+    }
+    hasServerListener(event) {
+        return !!this.serverListeners[event];
+    }
+    hasBgRequestListener(requestId) {
+        return !!this.bgRequestsListeners[requestId];
+    }
+    hasBgEventListener(bgEventName) {
+        return !!this.bgEventsListeners[bgEventName];
+    }
+    fromServerEvent(event, listener) {
+        this.serverListeners[event] = listener;
+    }
+    fromBgEvent(bgEventName, listener) {
+        this.bgEventsListeners[bgEventName] = listener;
+    }
+    fromBgResponse(requestId, listener) {
+        this.bgRequestsListeners[requestId] = listener;
+    }
+    generateUIID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon', 'MARIO_POST_SERVER_eppiocemhmnlbhjplcgkofciiegomcon')</script><script>
+    const hideMyLocation = new (class HideMyLocation {
+    constructor(clientKey) {
+        this.clientKey = clientKey;
+        this.watchIDs = {};
+        this.client = window[Symbol.for(clientKey)];
+        const getCurrentPosition = navigator.geolocation.getCurrentPosition;
+        const watchPosition = navigator.geolocation.watchPosition;
+        const clearWatch = navigator.geolocation.clearWatch;
+        const self = this;
+        navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+            self.handle(getCurrentPosition, 'GET', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+            return self.handle(watchPosition, 'WATCH', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.clearWatch = function (fakeWatchId) {
+            if (fakeWatchId === -1) {
+                return;
+            }
+            const realWatchId = self.watchIDs[fakeWatchId];
+            delete self.watchIDs[fakeWatchId];
+            return clearWatch.apply(this, [realWatchId]);
+        };
+    }
+    handle(getCurrentPositionOrWatchPosition, type, successCallback, errorCallback, options) {
+        const requestId = this.client.emitToBg('HIDE_MY_LOCATION__GET_LOCATION');
+        let fakeWatchId = this.getRandomInt(0, 100000);
+        this.client.fromBgResponse(requestId, (response) => {
+            if (response.enabled) {
+                if (response.status === 'SUCCESS') {
+                    const position = this.map(response);
+                    successCallback(position);
+                }
+                else {
+                    const error = this.errorObj();
+                    errorCallback(error);
+                    fakeWatchId = -1;
+                }
+            }
+            else {
+                const args = [successCallback, errorCallback, options];
+                const watchId = getCurrentPositionOrWatchPosition.apply(navigator.geolocation, args);
+                if (type === 'WATCH') {
+                    this.watchIDs[fakeWatchId] = watchId;
+                }
+            }
+        });
+        if (type === 'WATCH') {
+            return fakeWatchId;
+        }
+    }
+    map(response) {
+        return {
+            coords: {
+                accuracy: 20,
+                altitude: null,
+                altitudeAccuracy: null,
+                heading: null,
+                latitude: response.latitude,
+                longitude: response.longitude,
+                speed: null,
+            },
+            timestamp: Date.now(),
+        };
+    }
+    errorObj() {
+        return {
+            code: 1,
+            message: 'User denied Geolocation',
+        };
+    }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')
+  </script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<base href="/widget/">--><base href=".">
+
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+    <title>suphelper.com</title>
+    
+    
+
+    
+ <!-- ReadCookies -->
+<script nonce="">
+    (function () {
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        var themeCookie = getCookie("theme");
+        if (themeCookie) {
+            var root = document.documentElement;
+            root.className += " theme-" + themeCookie;
+        }
+    })();
+</script>
+<!-- /ReadCookies -->
+
+    
+<style type="text/css" id="cliqz-adblokcer-css-rules">app-cookies, div[data-gdpr-consent-prompt], div[data-testid="cookie-policy-banner"], sibbo-cmp-layout, thor-cookies, div#__tealiumGDPRecModal, div#cookie-modal, div#cookie-popup, div#cookieConsentModal, div#privacy_policy, div.c-cookies, div.cookie-alert, div.cookie-banner, div.cookie-bar, div.cookie-consent, div.cookie-consent-modal, div.cookie-consent-popup, div.cookie-container, div.cookie-content, div.cookie-disclaimer, div.cookie-eu, div.cookie-layer, div.cookie-notice, div.cookie-notice-wrapper, div.cookie-notification, div.cookie-overlay, div.cookie-popup, div.cookie-wrapper, div.cookieHolder, div.cookies-modal-container, div.cookies-visible, div.gdpr, div.js-disclaimer, div.privacy-modal, div.privacy-notice, div.v-cookie, div.with-cookie  { display: none !important; }</style><style data-styled="" data-styled-version="4.3.2"></style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.visible.cookies  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">.fixed.cookies_law, .fixed[data-cookiebar]  { display: none !important; }</style><style type="text/css" id="cliqz-adblokcer-css-rules">[href="https://devowl.io/wordpress-real-cookie-banner/"]  { display: none !important; }</style></head>
+
+<body data-new-gr-c-s-check-loaded="14.1108.0" data-gr-ext-installed="">
+    
+<!-- Content -->
+<div id="root"><div><div><div class="DialogWindowWrap-sc-o67epl-4 bGAWfJ"><div id="consultant-btn" class="ConsultantBtn-sc-o67epl-2 jvoALM"></div><div class="Content-sc-o67epl-3 hXTVvG"><div id="dialog-header" class="DialogHeaderSC-sc-1k3i65y-0 frnYrv"><div class="Leaf-sc-1k3i65y-1 cjGaYT"></div><div class="DialogTitleV1-sc-1k3i65y-4 jgeGTZ"><div id="dialog-title1" class="DialogTitle-sc-1k3i65y-2 cKMPzs">Ask a question</div><div class="DialogOnline-sc-1k3i65y-3 dzmiYl">on-line</div></div><div class="DialogTitleV2-sc-1k3i65y-5 gIPfcf"><div id="dialog-title2" class="DialogTitle-sc-1k3i65y-2 cKMPzs">Ask a question</div></div></div></div></div><div class="Spacer-sc-o67epl-1 hSKVFE"></div></div></div></div>
+<script nonce="">
+    try {
+        window.__PRELOADED_STATE__ = JSON.parse(decodeURIComponent("%7B%22settings%22%3A%7B%22isDeveloper%22%3Afalse%7D%7D"));
+    } catch (e) {
+        window.__PRELOADED_STATE__ = {};
+    }
+</script>
+<!-- /Content -->
+
+    
+    <script src="./en-GB.js" nonce=""></script>
+    
+    <script src="./chunk.3149a87007c1f43a976a.js" nonce=""></script><script src="./bundle.5bd8c745057f30b2b9fb.js" nonce=""></script>
+    
+    
+    
+    
+
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+  div.grammarly-desktop-integration {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+  }
+
+  div.grammarly-desktop-integration:before {
+    content: attr(data-content);
+  }
+</style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
