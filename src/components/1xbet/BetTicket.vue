@@ -47,7 +47,7 @@ function toggleShow() {
 }
 
 function getDateTime(cDate) {
-	return moment(cDate).format("DD/MM/YYYY | hh:mm");
+	return moment(cDate).format("DD/MM/YYYY | HH:mm");
 }
 
 onMounted(() => {

@@ -77,7 +77,7 @@ function save() {
 	ticket.value.games.map((bet) => {
 		bet.htScore = `${bet.scores.ht.home}:${bet.scores.ht.away}`;
 		bet.shfScore = `${bet.scores.sh.home}:${bet.scores.sh.away}`;
-		totalOdds += Number(bet.odds);
+		totalOdds *= Number(bet.odds);
 		return bet;
 	});
 	ticket.value.totalOdds = totalOdds;
