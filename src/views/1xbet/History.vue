@@ -18,11 +18,10 @@ import { bets } from "../../stores/bets";
 							src="/assets/1xbet/8faf161c7938d34dc93c9e22b43e702f.svg"
 							class="header-logo__img"
 						/>
-						<svg class="header-logo__flag">
-							<use
-								xlink:href="/default/img/header/country-flags-sprite.svg#ng"
-							></use>
-						</svg>
+						<img
+							class="header-logo__flag"
+							src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"
+						>
 					</a>
 					<!---->
 					<!---->
@@ -898,10 +897,10 @@ import { bets } from "../../stores/bets";
 							></span>
 						</div>
 						<div class="preloader-wrap" style="display: none">
-							<img
+							<!-- <img
 								width="100"
 								src="/assets/1xbet/saved_resource"
-							/>
+							/> -->
 						</div>
 					</div>
 				</div>
@@ -922,7 +921,7 @@ import { bets } from "../../stores/bets";
 			<!---->
 		</div>
 		<div class="load-overlay" style="display: none">
-			<img width="100" src="/assets/1xbet/saved_resource" />
+			<!-- <img width="100" src="/assets/1xbet/saved_resource" /> -->
 		</div>
 	</div>
 	<!--Start of Suphelper Chat Script-->

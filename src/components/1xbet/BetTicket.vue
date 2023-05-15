@@ -1,5 +1,7 @@
 <script setup>
+import moment from "moment";
 import { computed, onMounted, ref } from "vue";
+import currency from "currency.js";
 
 const props = defineProps({
 	bet: {
@@ -7,12 +9,28 @@ const props = defineProps({
 	},
 });
 
+const settings = ref({
+	currency: "USD"
+})
+
 const hidden = ref(true);
 const banner = ref({});
+
+const money = (money) => {
+	const cash = currency(money, {
+		symbol: "",
+	}).format();
+
+	return cash.split(".")[1] == "00" ? cash.split(".")[0] : cash;
+};
 
 const gameType = computed(() => {
 	if (props.bet.games.length == 1) return "Single";
 	return "Accumulator";
+});
+
+const winnings = computed(() => {
+	return money(props.bet.totalOdds * props.bet.bet);
 });
 
 function ftScore(ht, ft, del = "-") {
@@ -28,9 +46,9 @@ function toggleShow() {
 	hidden.value = !hidden.value;
 }
 
-const winnings = computed(() => {
-	return props.bet.totalOdds * props.bet.bet;
-});
+function getDateTime(cDate) {
+	return moment(cDate).format("DD/MM/YYYY | hh:mm");
+}
 
 onMounted(() => {
 	// console.log(props.bet);
@@ -45,13 +63,13 @@ onMounted(() => {
 			:class="hidden ? '' : 'active'"
 			class="events__item events__item_head events__item_coupon win"
 		>
-			<div class="events__cell">
+			<div @click="toggleShow()" class="events__cell">
 				<div class="history__cell">
-					<div @click="toggleShow()" class="history__title">
+					<div class="history__title">
 						<svg class="events__logo events__logo_center">
-							<use
+							<!-- <use
 								xlink:href="/default/img/bet-history-icons.svg#logo"
-							></use>
+							></use> -->
 						</svg>
 						<div class="events__cell events__cell_row">
 							<div class="events__text">
@@ -106,7 +124,7 @@ onMounted(() => {
 				<div class="events__cell events__cell_row events__cell_indent">
 					<div class="events__text">Bet</div>
 					<div class="events__text events__text_main">
-						{{ bet.bet }} NGN
+						{{ money(bet.bet) }} {{ settings.currency }}
 					</div>
 				</div>
 				<div class="bet-history-row-element-tax">
@@ -118,7 +136,7 @@ onMounted(() => {
 							<!---->
 						</div>
 						<div class="events__text events__text_main">
-							{{ winnings }} NGN
+							{{ winnings }} {{ settings.currency }}
 						</div>
 					</div>
 					<!---->
@@ -129,7 +147,7 @@ onMounted(() => {
 				<!---->
 				<div class="events__cell events__cell_row events__cell_indent">
 					<div class="events__text">
-						from {{ bet.fromDate }} | {{ bet.fromTime }}
+						from {{ getDateTime(bet.fromDateTime) }}
 					</div>
 					<div class="events__text events__text_main">
 						№<span class="">
@@ -170,7 +188,7 @@ onMounted(() => {
 							</span>
 							<span
 								><span class=""><b>Football</b></span>
-								<span class="">
+								<span class="ms-2">
 									{{ game.competition }}
 								</span></span
 							>
@@ -229,7 +247,7 @@ onMounted(() => {
 					<div class="events__cell events__cell_row">
 						<div class="events__text">Start date and time</div>
 						<div class="events__text events__text_main">
-							{{ game.startDate }} | {{ game.startTime }}
+							{{ getDateTime(game.startDateTime) }}
 						</div>
 					</div>
 					<div class="events__cell events__cell_row">
@@ -241,7 +259,7 @@ onMounted(() => {
 					<div class="events__cell events__cell_row">
 						<div class="events__text">Time of processing</div>
 						<div class="events__text events__text_main">
-							{{ game.endDateTime }}
+							{{ getDateTime(game.endDateTime) }}
 						</div>
 					</div>
 				</div>
@@ -252,6 +270,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 .hide {
 	display: none;
 	height: 0px;

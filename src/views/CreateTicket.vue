@@ -2,13 +2,13 @@
 // import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js";
 import { onMounted, ref } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
-import monent from "moment";
-import "@vuepic/vue-datepicker/dist/main.css";
 import { bets } from "../stores/bets";
+import { alert } from "../stores/utility";
+import moment from "moment";
 
-const tickets = ref([]);
-
-const date = ref(new Date());
+const showNew = ref(true);
+const updateIndex = ref(false);
+const tickets = ref(bets.tickets.value);
 
 // localStorage.clear();
 
@@ -26,14 +26,30 @@ const format = (date) => {
 	return `${day}/${month}/${year} | ${hours}:${mins}`;
 };
 
+function editGame(edit, index) {
+	ticket.value = edit;
+	showNew.value = true;
+	updateIndex.value = index;
+}
+
+function deleteTicket(id) {
+	bets.delete(id);
+	updateIndex.value = false;
+	tickets.value = bets.getTicks();
+}
+
 function getTime() {
 	let max = 60;
 	let min = 50;
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function getDateTime(cDate) {
+	return moment().format("DD/MM/YYYY | hh:mm");
+}
+
 const alertDate = (i, data) => {
-	ticket.value.games[i].endDateTime = monent(data)
+	ticket.value.games[i].endDateTime = moment(data)
 		.add(1, "hour")
 		.add(getTime(), "minutes")
 		.toDate();
@@ -57,14 +73,19 @@ const ticket = ref({
 });
 
 function save() {
+	let totalOdds = 0;
 	ticket.value.games.map((bet) => {
 		bet.htScore = `${bet.scores.ht.home}:${bet.scores.ht.away}`;
 		bet.shfScore = `${bet.scores.sh.home}:${bet.scores.sh.away}`;
+		totalOdds += Number(bet.odds);
 		return bet;
 	});
-	bets.save(ticket.value);
+	ticket.value.totalOdds = totalOdds;
+	bets.save(ticket.value, updateIndex.value);
+	updateIndex.value = false;
 	ticket.value.games = [];
 	addGame();
+	ticket.value.id = getId();
 }
 
 function addGame() {
@@ -72,8 +93,8 @@ function addGame() {
 		competition: "Australia Cup",
 		homeTeam: "Everton",
 		awayTeam: "Liverpool",
-		htScore: "1:2",
-		shfScore: "2:1",
+		htScore: "none",
+		shfScore: "none",
 		scores: {
 			ht: {
 				home: 0,
@@ -94,12 +115,6 @@ function addGame() {
 		endTime: "11:22",
 		endDateTime: new Date(),
 	});
-}
-
-const showNew = ref(true);
-function toggle() {
-	console.log("toggle");
-	showNew.value = !showNew.value;
 }
 
 onMounted(() => {
@@ -134,7 +149,7 @@ onMounted(() => {
 
 				<div v-if="showNew == true" class="">
 					<div class="d-flex justify-content-center">
-						<form class="" @submit="save()">
+						<form class="" @submit.prevent="save()">
 							<div class="mb-5">
 								<!-- Header -->
 								<div
@@ -390,9 +405,66 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div v-else id="prev-tickets" class="card rounded-4">
+				<div v-else id="prev-tickets" class="card rounded-4 border-0">
 					<div class="card-body">
 						<h1 class="text-center mb-3">Existing Tickects</h1>
+
+						<div class="row g-3">
+							<div
+								v-for="(bet, index) in bets.bets()"
+								class="col col-md-4"
+							>
+								<div class="card">
+									<div class="card-body">
+										<div
+											class="d-flex align-items-start justify-content-between"
+										>
+											<div class="h3 d-flex flex-column">
+												<span>ID: {{ bet.id }}</span>
+												<small class="fs-5 text-muted">
+													{{
+														getDateTime(
+															bet.fromDateTime
+														)
+													}}
+												</small>
+											</div>
+											<div>
+												<button
+													@click="
+														editGame(bet, index)
+													"
+													class="btn btn-outline-primary"
+												>
+													<i
+														class="fa-solid fa-pen"
+													></i>
+												</button>
+												<button
+													@click="
+														deleteTicket(bet.id)
+													"
+													class="btn btn-outline-danger ms-2"
+												>
+													<i
+														class="fa-solid fa-trash-can"
+													></i>
+												</button>
+											</div>
+										</div>
+										<small class="fs-5 text-muted"
+											>first game in betslip</small
+										>
+										<div class="mt-1 h2">
+											{{ bet.games[0].homeTeam }} -
+											{{ bet.games[0].awayTeam }}
+											( {{ bet.games[0].htScore }},
+											{{ bet.games[0].shfScore }})
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -402,4 +474,5 @@ onMounted(() => {
 
 <style>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css");
+@import "@vuepic/vue-datepicker/dist/main.css";
 </style>
