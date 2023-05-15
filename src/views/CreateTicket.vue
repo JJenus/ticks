@@ -73,7 +73,7 @@ const ticket = ref({
 });
 
 function save() {
-	let totalOdds = 0;
+	let totalOdds = 1;
 	ticket.value.games.map((bet) => {
 		bet.htScore = `${bet.scores.ht.home}:${bet.scores.ht.away}`;
 		bet.shfScore = `${bet.scores.sh.home}:${bet.scores.sh.away}`;
