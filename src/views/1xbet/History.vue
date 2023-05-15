@@ -1,6 +1,13 @@
 <script setup>
+import moment from "moment";
 import BetTicket from "../../components/1xbet/BetTicket.vue";
 import { bets } from "../../stores/bets";
+import { ref } from "vue";
+
+const dateRange = ref({
+	to: moment().format("DD/MM/YYYY"),
+	from: moment().format("DD/MM/YYYY"),
+});
 </script>
 <template>
 	<div class="wrapper">
@@ -21,7 +28,7 @@ import { bets } from "../../stores/bets";
 						<img
 							class="header-logo__flag"
 							src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"
-						>
+						/>
 					</a>
 					<!---->
 					<!---->
@@ -93,242 +100,24 @@ import { bets } from "../../stores/bets";
 												<!---->
 												<input
 													type="text"
+													v-model="dateRange.to"
 													readonly
 													autocomplete="off"
 													class="filter-date__input"
 												/>
 												<!---->
 											</div>
-											<div
-												class="vdp-datepicker__calendar"
-												style="display: none"
-											>
-												<header>
-													<span class="prev"
-														>&lt;</span
-													>
-													<span
-														class="day__month_btn up"
-														>May 2023</span
-													>
-													<span class="next disabled"
-														>&gt;</span
-													>
-												</header>
-												<div class="">
-													<span
-														class="cell day-header"
-														>Mon</span
-													><span
-														class="cell day-header"
-														>Tue</span
-													><span
-														class="cell day-header"
-														>Wed</span
-													><span
-														class="cell day-header"
-														>Thu</span
-													><span
-														class="cell day-header"
-														>Fri</span
-													><span
-														class="cell day-header"
-														>Sat</span
-													><span
-														class="cell day-header"
-														>Sun</span
-													>
-													<!----><span
-														class="cell day"
-														>1</span
-													><span class="cell day"
-														>2</span
-													><span class="cell day"
-														>3</span
-													><span class="cell day"
-														>4</span
-													><span class="cell day"
-														>5</span
-													><span
-														class="cell day weekend sat"
-														>6</span
-													><span
-														class="cell day weekend sun"
-														>7</span
-													><span
-														class="cell day selected"
-														>8</span
-													><span class="cell day"
-														>9</span
-													><span
-														class="cell day today"
-														>10</span
-													><span
-														class="cell day disabled"
-														>11</span
-													><span
-														class="cell day disabled"
-														>12</span
-													><span
-														class="cell day disabled weekend sat"
-														>13</span
-													><span
-														class="cell day disabled weekend sun"
-														>14</span
-													><span
-														class="cell day disabled"
-														>15</span
-													><span
-														class="cell day disabled"
-														>16</span
-													><span
-														class="cell day disabled"
-														>17</span
-													><span
-														class="cell day disabled"
-														>18</span
-													><span
-														class="cell day disabled"
-														>19</span
-													><span
-														class="cell day disabled weekend sat"
-														>20</span
-													><span
-														class="cell day disabled weekend sun"
-														>21</span
-													><span
-														class="cell day disabled"
-														>22</span
-													><span
-														class="cell day disabled"
-														>23</span
-													><span
-														class="cell day disabled"
-														>24</span
-													><span
-														class="cell day disabled"
-														>25</span
-													><span
-														class="cell day disabled"
-														>26</span
-													><span
-														class="cell day disabled weekend sat"
-														>27</span
-													><span
-														class="cell day disabled weekend sun"
-														>28</span
-													><span
-														class="cell day disabled"
-														>29</span
-													><span
-														class="cell day disabled"
-														>30</span
-													><span
-														class="cell day disabled"
-														>31</span
-													>
-												</div>
-											</div>
-											<div
-												class="vdp-datepicker__calendar"
-												style="display: none"
-											>
-												<header>
-													<span class="prev"
-														>&lt;</span
-													>
-													<span
-														class="month__year_btn up"
-														>2023</span
-													>
-													<span class="next disabled"
-														>&gt;</span
-													>
-												</header>
-												<span class="cell month"
-													>January</span
-												><span class="cell month"
-													>February</span
-												><span class="cell month"
-													>March</span
-												><span class="cell month"
-													>April</span
-												><span
-													class="cell month selected"
-													>May</span
-												><span
-													class="cell month disabled"
-													>June</span
-												><span
-													class="cell month disabled"
-													>July</span
-												><span
-													class="cell month disabled"
-													>August</span
-												><span
-													class="cell month disabled"
-													>September</span
-												><span
-													class="cell month disabled"
-													>October</span
-												><span
-													class="cell month disabled"
-													>November</span
-												><span
-													class="cell month disabled"
-													>December</span
-												>
-											</div>
-											<div
-												class="vdp-datepicker__calendar"
-												style="display: none"
-											>
-												<header>
-													<span class="prev"
-														>&lt;</span
-													>
-													<span>2020 - 2029</span>
-													<span class="next disabled"
-														>&gt;</span
-													>
-												</header>
-												<span class="cell year"
-													>2020</span
-												><span class="cell year"
-													>2021</span
-												><span class="cell year"
-													>2022</span
-												><span
-													class="cell year selected"
-													>2023</span
-												><span
-													class="cell year disabled"
-													>2024</span
-												><span
-													class="cell year disabled"
-													>2025</span
-												><span
-													class="cell year disabled"
-													>2026</span
-												><span
-													class="cell year disabled"
-													>2027</span
-												><span
-													class="cell year disabled"
-													>2028</span
-												><span
-													class="cell year disabled"
-													>2029</span
-												>
-											</div>
 										</div>
 									</div>
+
+									<!-- DATE FROM -->
 									<div class="filter-date__input-con">
 										<div class="vdp-datepicker">
 											<div class="">
 												<!---->
 												<input
 													type="text"
+													v-model="dateRange.from"
 													readonly
 													autocomplete="off"
 													class="filter-date__input"
