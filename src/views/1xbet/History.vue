@@ -8,6 +8,8 @@ const dateRange = ref({
 	to: moment().format("DD/MM/YYYY"),
 	from: moment().format("DD/MM/YYYY"),
 });
+
+const tickets = bets.bets();
 </script>
 <template>
 	<div class="wrapper">
@@ -421,10 +423,7 @@ const dateRange = ref({
 									<!---->
 								</div>
 
-								<BetTicket
-									v-for="bet in bets.bets()"
-									:bet="bet"
-								/>
+								<BetTicket v-for="bet in tickets" :bet="bet" />
 							</div>
 						</div>
 					</div>
