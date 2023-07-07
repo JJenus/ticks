@@ -187,7 +187,7 @@ onMounted(() => {
 								</svg>
 							</span>
 							<span
-								><span class=""><b>Football</b></span>
+								><span style="margin-right: 5px;" class=""><b>Football</b></span>
 								<span class="ms-2">
 									{{ game.competition }}
 								</span></span

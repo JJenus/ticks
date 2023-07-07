@@ -1,15 +1,40 @@
 <script setup>
-import moment from "moment";
-import BetTicket from "../../components/1xbet/BetTicket.vue";
-import { bets } from "../../stores/bets";
-import { ref } from "vue";
+	import moment from "moment";
+	import BetTicket from "../../components/1xbet/BetTicket.vue";
+	import { bets } from "../../stores/bets";
+	import { ref } from "vue";
 
-const dateRange = ref({
-	to: moment().format("DD/MM/YYYY"),
-	from: moment().format("DD/MM/YYYY"),
-});
+	const dateRange = ref({
+		to: moment().format("DD/MM/YYYY"),
+		from: moment().format("DD/MM/YYYY"),
+	});
 
-const tickets = bets.bets();
+	const scrollTop = ref(false);
+
+	const tickets = bets.bets();
+
+	var rootElement = document.documentElement;
+
+	function handleScroll() {
+		// Do something on scroll
+		var scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+		if (rootElement.scrollTop / scrollTotal > 0.5) {
+			// Show button
+			if (!scrollTop.value) scrollTop.value = true;
+		} else {
+			// Hide button
+			if (scrollTop.value === true) scrollTop.value = false;
+		}
+	}
+
+	function scroll() {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	}
+
+	window.addEventListener("scroll", handleScroll);
 </script>
 <template>
 	<div class="wrapper">
@@ -29,7 +54,7 @@ const tickets = bets.bets();
 						/>
 						<img
 							class="header-logo__flag"
-							src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"
+							src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Canada_%28Pantone%29.svg"
 						/>
 					</a>
 					<!---->
@@ -429,8 +454,8 @@ const tickets = bets.bets();
 					</div>
 				</div>
 			</div>
-			<div class="footer__row">
-				<button class="back-to-top fixed"></button>
+			<div v-if="scrollTop" class="footer__row">
+				<button @click="scroll()" class="back-to-top fixed"></button>
 			</div>
 			<div class="sports-partners-container">
 				<div class="sports-partners">
@@ -981,19 +1006,31 @@ const tickets = bets.bets();
 				</div>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container" bis_skin_checked="1">
 			<!-- open new container -->
-
 			<p class="copy">
-				1xbet.ng is owned and operated by BEAUFORTBET NIGERIA LIMITED,
-				which operates under license №: 0001018 dated September 12, 2019
-				issued by the National Lottery Regulatory Commission of the
-				Republic of Nigeria.
-			</p>
-
-			<p class="copy">
-				Copyright © 2007 — 2023 "1xBet" All rights reserved and
-				protected by law.
+				The games of 1x-bet.com, including any certified aliases, are
+				operated by Caecus N.V. in Curaçao under license 1668/JAZ of
+				Curaçao eGaming (CEG), issued by the Governor of Curaçao to date
+				October 1st, 1996 under the ordinance of June 8th, 1993. The
+				Minister of Finance of Curaçao has undermandated the Gaming
+				Control Board in Curaçao to regulate the Gaming License.
+				Payments are processed by Exidna Enterprises LTD (НЕ435756) and
+				Evrianassa Enterprises LTD (НЕ435969). To participate in the
+				games, you must first accept to be legally bound by the contents
+				of the Responsible Gaming Agreement (RGA), including its Gaming
+				Terms and Conditions (GT&amp;C). It is important to know that
+				the RGA/GT&amp;C contains important limitations and restrictions
+				that are imposed for your protection and those of others. Before
+				you decide to participate in any game, please make sure to
+				carefully review the RGA/GT&amp;C. Click
+				<a class="footer-copy__link" href="/en/information/rules"
+					>here</a
+				>
+				to read, print and download a copy of the RGA/GT&amp;C. In
+				addition to the English language, copies may also be available
+				in other languages. However, the original English version shall
+				supersede any translations.
 			</p>
 
 			<a
@@ -1004,19 +1041,63 @@ const tickets = bets.bets();
 				>Affiliate Program</a
 			>
 
-			<div class="footer-policy">
+			<a href="information/amlkyc" class="partners-link" rel="noopener"
+				>AML/KYC Policy</a
+			>
+
+			<div class="footer-policy" bis_skin_checked="1">
 				1xBet uses cookies to guarantee that your experience is as
 				smooth as possible. By remaining on the website, you agree to
 				our use of your cookies on 1xBet.
-				<a
-					class="footer-policy__link"
-					href="https://1xbet.ng/information/cookies"
+				<a class="footer-policy__link" href="/en/information/cookies"
 					>Find out more</a
 				>
 			</div>
 
-			<div class="footer__row">
-				<div class="age">18+</div>
+			<div
+				class="footer__row position-absolute top-0"
+				bis_skin_checked="1"
+			>
+				<a
+					style="
+						position: relative;
+						display: flex;
+						align-items: end;
+						justify-content: center;
+					"
+					target="_blank"
+					bis_size='{"x":8,"y":1197,"w":100,"h":118,"abs_x":8,"abs_y":1197}'
+				>
+					<img
+						src="/assets/1xbet/verify/validate.png"
+						alt=""
+						width="100"
+						bis_size='{"x":8,"y":1197,"w":100,"h":111,"abs_x":8,"abs_y":1197}'
+						bis_id="bn_3nt5lqlf5zlitlt3jbvfpf"
+					/>
+					<div style="position: absolute; z-index: 100">
+						<span
+							style="
+							width: 100px;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								padding: 2px 0px;
+								color: #000;
+								border-radius: 10px;
+								background-color: #59bc67;
+								font-size: 0.9rem;
+								font-weight: 600;
+								padding-bottom: 0;
+							"
+							class=""
+						>
+							{{ moment().format("DD/MM/YYYY HH:mm:ss") }}
+						</span>
+					</div>
+				</a>
+
+				<div class="age" bis_skin_checked="1">18+</div>
 			</div>
 		</div>
 	</footer>
@@ -1041,304 +1122,308 @@ const tickets = bets.bets();
 </template>
 
 <style type="text/css">
-.sh-mobile-009c76f19c66a349d0854b89512a6bfb {
-	overflow-y: hidden;
-}
-.sh-mobile-009c76f19c66a349d0854b89512a6bfb body {
-	position: fixed !important;
-	width: 100% !important;
-	height: 100% !important;
-	top: 0px !important;
-	right: 0px !important;
-	bottom: 0px !important;
-	left: 0px !important;
-	overflow-y: hidden !important;
-}
+	.sh-mobile-009c76f19c66a349d0854b89512a6bfb {
+		overflow-y: hidden;
+	}
+	.sh-mobile-009c76f19c66a349d0854b89512a6bfb body {
+		position: fixed !important;
+		width: 100% !important;
+		height: 100% !important;
+		top: 0px !important;
+		right: 0px !important;
+		bottom: 0px !important;
+		left: 0px !important;
+		overflow-y: hidden !important;
+	}
 </style>
 
 <style type="text/css">
-.resize-observer[data-v-b329ee4c] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -1;
-	width: 100%;
-	height: 100%;
-	border: none;
-	background-color: transparent;
-	pointer-events: none;
-	display: block;
-	overflow: hidden;
-	opacity: 0;
-}
-.resize-observer[data-v-b329ee4c] object {
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	pointer-events: none;
-	z-index: -1;
-}
+	.resize-observer[data-v-b329ee4c] {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		border: none;
+		background-color: transparent;
+		pointer-events: none;
+		display: block;
+		overflow: hidden;
+		opacity: 0;
+	}
+	.resize-observer[data-v-b329ee4c] object {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: -1;
+	}
 </style>
 <style type="text/css">
-.ps {
-	-ms-touch-action: auto;
-	touch-action: auto;
-	overflow: hidden !important;
-	-ms-overflow-style: none;
-}
-@supports (-ms-overflow-style: none) {
 	.ps {
-		overflow: auto !important;
+		-ms-touch-action: auto;
+		touch-action: auto;
+		overflow: hidden !important;
+		-ms-overflow-style: none;
 	}
-}
-@media (-ms-high-contrast: none), screen and (-ms-high-contrast: active) {
-	.ps {
-		overflow: auto !important;
+	@supports (-ms-overflow-style: none) {
+		.ps {
+			overflow: auto !important;
+		}
 	}
-}
-.ps.ps--active-x > .ps__scrollbar-x-rail,
-.ps.ps--active-y > .ps__scrollbar-y-rail {
-	display: block;
-	background-color: transparent;
-}
-.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x {
-	background-color: #999;
-	height: 11px;
-}
-.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
-	background-color: #999;
-	width: 11px;
-}
-.ps > .ps__scrollbar-x-rail {
-	display: none;
-	position: absolute;
-	opacity: 0;
-	transition: background-color 0.2s linear, opacity 0.2s linear;
-	bottom: 0;
-	height: 15px;
-}
-.ps > .ps__scrollbar-x-rail > .ps__scrollbar-x {
-	position: absolute;
-	background-color: #aaa;
-	border-radius: 6px;
-	transition: background-color 0.2s linear, height 0.2s linear,
-		width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-	bottom: 2px;
-	height: 6px;
-}
-.ps > .ps__scrollbar-x-rail:active > .ps__scrollbar-x,
-.ps > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x {
-	height: 11px;
-}
-.ps > .ps__scrollbar-y-rail {
-	display: none;
-	position: absolute;
-	opacity: 0;
-	transition: background-color 0.2s linear, opacity 0.2s linear;
-	right: 0;
-	width: 15px;
-}
-.ps > .ps__scrollbar-y-rail > .ps__scrollbar-y {
-	position: absolute;
-	background-color: #aaa;
-	border-radius: 6px;
-	transition: background-color 0.2s linear, height 0.2s linear,
-		width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-	right: 2px;
-	width: 6px;
-}
-.ps > .ps__scrollbar-y-rail:active > .ps__scrollbar-y,
-.ps > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
-	width: 11px;
-}
-.ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x {
-	background-color: #999;
-	height: 11px;
-}
-.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
-	background-color: #999;
-	width: 11px;
-}
-.ps:hover > .ps__scrollbar-x-rail,
-.ps:hover > .ps__scrollbar-y-rail {
-	opacity: 0.6;
-}
-.ps:hover > .ps__scrollbar-x-rail:hover {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps:hover > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x {
-	background-color: #999;
-}
-.ps:hover > .ps__scrollbar-y-rail:hover {
-	background-color: #eee;
-	opacity: 0.9;
-}
-.ps:hover > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
-	background-color: #999;
-}
-.ps-container {
-	position: relative;
-}
+	@media (-ms-high-contrast: none), screen and (-ms-high-contrast: active) {
+		.ps {
+			overflow: auto !important;
+		}
+	}
+	.ps.ps--active-x > .ps__scrollbar-x-rail,
+	.ps.ps--active-y > .ps__scrollbar-y-rail {
+		display: block;
+		background-color: transparent;
+	}
+	.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+		background-color: #999;
+		height: 11px;
+	}
+	.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail > .ps__scrollbar-y {
+		background-color: #999;
+		width: 11px;
+	}
+	.ps > .ps__scrollbar-x-rail {
+		display: none;
+		position: absolute;
+		opacity: 0;
+		transition: background-color 0.2s linear, opacity 0.2s linear;
+		bottom: 0;
+		height: 15px;
+	}
+	.ps > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+		position: absolute;
+		background-color: #aaa;
+		border-radius: 6px;
+		transition: background-color 0.2s linear, height 0.2s linear,
+			width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+		bottom: 2px;
+		height: 6px;
+	}
+	.ps > .ps__scrollbar-x-rail:active > .ps__scrollbar-x,
+	.ps > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x {
+		height: 11px;
+	}
+	.ps > .ps__scrollbar-y-rail {
+		display: none;
+		position: absolute;
+		opacity: 0;
+		transition: background-color 0.2s linear, opacity 0.2s linear;
+		right: 0;
+		width: 15px;
+	}
+	.ps > .ps__scrollbar-y-rail > .ps__scrollbar-y {
+		position: absolute;
+		background-color: #aaa;
+		border-radius: 6px;
+		transition: background-color 0.2s linear, height 0.2s linear,
+			width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+		right: 2px;
+		width: 6px;
+	}
+	.ps > .ps__scrollbar-y-rail:active > .ps__scrollbar-y,
+	.ps > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
+		width: 11px;
+	}
+	.ps:hover.ps--in-scrolling.ps--x > .ps__scrollbar-x-rail {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps:hover.ps--in-scrolling.ps--x
+		> .ps__scrollbar-x-rail
+		> .ps__scrollbar-x {
+		background-color: #999;
+		height: 11px;
+	}
+	.ps:hover.ps--in-scrolling.ps--y > .ps__scrollbar-y-rail {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps:hover.ps--in-scrolling.ps--y
+		> .ps__scrollbar-y-rail
+		> .ps__scrollbar-y {
+		background-color: #999;
+		width: 11px;
+	}
+	.ps:hover > .ps__scrollbar-x-rail,
+	.ps:hover > .ps__scrollbar-y-rail {
+		opacity: 0.6;
+	}
+	.ps:hover > .ps__scrollbar-x-rail:hover {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps:hover > .ps__scrollbar-x-rail:hover > .ps__scrollbar-x {
+		background-color: #999;
+	}
+	.ps:hover > .ps__scrollbar-y-rail:hover {
+		background-color: #eee;
+		opacity: 0.9;
+	}
+	.ps:hover > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
+		background-color: #999;
+	}
+	.ps-container {
+		position: relative;
+	}
 </style>
 <style type="text/css">
-.rtl {
-	direction: rtl;
-}
-.vdp-datepicker {
-	position: relative;
-	text-align: left;
-}
-.vdp-datepicker * {
-	box-sizing: border-box;
-}
-.vdp-datepicker__calendar {
-	position: absolute;
-	z-index: 100;
-	background: #fff;
-	width: 300px;
-	border: 1px solid #ccc;
-}
-.vdp-datepicker__calendar header {
-	display: block;
-	line-height: 40px;
-}
-.vdp-datepicker__calendar header span {
-	display: inline-block;
-	text-align: center;
-	width: 71.42857142857143%;
-	float: left;
-}
-.vdp-datepicker__calendar header .prev,
-.vdp-datepicker__calendar header .next {
-	width: 14.285714285714286%;
-	float: left;
-	text-indent: -10000px;
-	position: relative;
-}
-.vdp-datepicker__calendar header .prev:after,
-.vdp-datepicker__calendar header .next:after {
-	content: "";
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translateX(-50%) translateY(-50%);
-	border: 6px solid transparent;
-}
-.vdp-datepicker__calendar header .prev:after {
-	border-right: 10px solid #000;
-	margin-left: -5px;
-}
-.vdp-datepicker__calendar header .prev.disabled:after {
-	border-right: 10px solid #ddd;
-}
-.vdp-datepicker__calendar header .next:after {
-	border-left: 10px solid #000;
-	margin-left: 5px;
-}
-.vdp-datepicker__calendar header .next.disabled:after {
-	border-left: 10px solid #ddd;
-}
-.vdp-datepicker__calendar header .prev:not(.disabled),
-.vdp-datepicker__calendar header .next:not(.disabled),
-.vdp-datepicker__calendar header .up:not(.disabled) {
-	cursor: pointer;
-}
-.vdp-datepicker__calendar header .prev:not(.disabled):hover,
-.vdp-datepicker__calendar header .next:not(.disabled):hover,
-.vdp-datepicker__calendar header .up:not(.disabled):hover {
-	background: #eee;
-}
-.vdp-datepicker__calendar .disabled {
-	color: #ddd;
-	cursor: default;
-}
-.vdp-datepicker__calendar .flex-rtl {
-	display: flex;
-	width: inherit;
-	flex-wrap: wrap;
-}
-.vdp-datepicker__calendar .cell {
-	display: inline-block;
-	padding: 0 5px;
-	width: 14.285714285714286%;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
-	vertical-align: middle;
-	border: 1px solid transparent;
-}
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {
-	cursor: pointer;
-}
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
-.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
-	border: 1px solid #4bd;
-}
-.vdp-datepicker__calendar .cell.selected {
-	background: #4bd;
-}
-.vdp-datepicker__calendar .cell.selected:hover {
-	background: #4bd;
-}
-.vdp-datepicker__calendar .cell.selected.highlighted {
-	background: #4bd;
-}
-.vdp-datepicker__calendar .cell.highlighted {
-	background: #cae5ed;
-}
-.vdp-datepicker__calendar .cell.highlighted.disabled {
-	color: #a3a3a3;
-}
-.vdp-datepicker__calendar .cell.grey {
-	color: #888;
-}
-.vdp-datepicker__calendar .cell.grey:hover {
-	background: inherit;
-}
-.vdp-datepicker__calendar .cell.day-header {
-	font-size: 75%;
-	white-space: nowrap;
-	cursor: inherit;
-}
-.vdp-datepicker__calendar .cell.day-header:hover {
-	background: inherit;
-}
-.vdp-datepicker__calendar .month,
-.vdp-datepicker__calendar .year {
-	width: 33.333%;
-}
-.vdp-datepicker__clear-button,
-.vdp-datepicker__calendar-button {
-	cursor: pointer;
-	font-style: normal;
-}
-.vdp-datepicker__clear-button.disabled,
-.vdp-datepicker__calendar-button.disabled {
-	color: #999;
-	cursor: default;
-}
+	.rtl {
+		direction: rtl;
+	}
+	.vdp-datepicker {
+		position: relative;
+		text-align: left;
+	}
+	.vdp-datepicker * {
+		box-sizing: border-box;
+	}
+	.vdp-datepicker__calendar {
+		position: absolute;
+		z-index: 100;
+		background: #fff;
+		width: 300px;
+		border: 1px solid #ccc;
+	}
+	.vdp-datepicker__calendar header {
+		display: block;
+		line-height: 40px;
+	}
+	.vdp-datepicker__calendar header span {
+		display: inline-block;
+		text-align: center;
+		width: 71.42857142857143%;
+		float: left;
+	}
+	.vdp-datepicker__calendar header .prev,
+	.vdp-datepicker__calendar header .next {
+		width: 14.285714285714286%;
+		float: left;
+		text-indent: -10000px;
+		position: relative;
+	}
+	.vdp-datepicker__calendar header .prev:after,
+	.vdp-datepicker__calendar header .next:after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border: 6px solid transparent;
+	}
+	.vdp-datepicker__calendar header .prev:after {
+		border-right: 10px solid #000;
+		margin-left: -5px;
+	}
+	.vdp-datepicker__calendar header .prev.disabled:after {
+		border-right: 10px solid #ddd;
+	}
+	.vdp-datepicker__calendar header .next:after {
+		border-left: 10px solid #000;
+		margin-left: 5px;
+	}
+	.vdp-datepicker__calendar header .next.disabled:after {
+		border-left: 10px solid #ddd;
+	}
+	.vdp-datepicker__calendar header .prev:not(.disabled),
+	.vdp-datepicker__calendar header .next:not(.disabled),
+	.vdp-datepicker__calendar header .up:not(.disabled) {
+		cursor: pointer;
+	}
+	.vdp-datepicker__calendar header .prev:not(.disabled):hover,
+	.vdp-datepicker__calendar header .next:not(.disabled):hover,
+	.vdp-datepicker__calendar header .up:not(.disabled):hover {
+		background: #eee;
+	}
+	.vdp-datepicker__calendar .disabled {
+		color: #ddd;
+		cursor: default;
+	}
+	.vdp-datepicker__calendar .flex-rtl {
+		display: flex;
+		width: inherit;
+		flex-wrap: wrap;
+	}
+	.vdp-datepicker__calendar .cell {
+		display: inline-block;
+		padding: 0 5px;
+		width: 14.285714285714286%;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		vertical-align: middle;
+		border: 1px solid transparent;
+	}
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day,
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month,
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year {
+		cursor: pointer;
+	}
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+	.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+		border: 1px solid #4bd;
+	}
+	.vdp-datepicker__calendar .cell.selected {
+		background: #4bd;
+	}
+	.vdp-datepicker__calendar .cell.selected:hover {
+		background: #4bd;
+	}
+	.vdp-datepicker__calendar .cell.selected.highlighted {
+		background: #4bd;
+	}
+	.vdp-datepicker__calendar .cell.highlighted {
+		background: #cae5ed;
+	}
+	.vdp-datepicker__calendar .cell.highlighted.disabled {
+		color: #a3a3a3;
+	}
+	.vdp-datepicker__calendar .cell.grey {
+		color: #888;
+	}
+	.vdp-datepicker__calendar .cell.grey:hover {
+		background: inherit;
+	}
+	.vdp-datepicker__calendar .cell.day-header {
+		font-size: 75%;
+		white-space: nowrap;
+		cursor: inherit;
+	}
+	.vdp-datepicker__calendar .cell.day-header:hover {
+		background: inherit;
+	}
+	.vdp-datepicker__calendar .month,
+	.vdp-datepicker__calendar .year {
+		width: 33.333%;
+	}
+	.vdp-datepicker__clear-button,
+	.vdp-datepicker__calendar-button {
+		cursor: pointer;
+		font-style: normal;
+	}
+	.vdp-datepicker__clear-button.disabled,
+	.vdp-datepicker__calendar-button.disabled {
+		color: #999;
+		cursor: default;
+	}
 </style>
