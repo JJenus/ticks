@@ -1083,7 +1083,7 @@
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								padding: 2px 0px;
+								padding: 2px 2px;
 								color: #000;
 								border-radius: 10px;
 								background-color: #59bc67;
