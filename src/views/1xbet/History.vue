@@ -18,12 +18,13 @@
 	function handleScroll() {
 		// Do something on scroll
 		var scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+		const ele = document.querySelector("#scroll-btn");
 		if (rootElement.scrollTop / scrollTotal > 0.5) {
 			// Show button
-			if (!scrollTop.value) scrollTop.value = true;
+			ele.classList.remove("d-none");
 		} else {
 			// Hide button
-			if (scrollTop.value === true) scrollTop.value = false;
+			ele.classList.add("d-none");
 		}
 	}
 
@@ -454,7 +455,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="scrollTop" class="footer__row">
+			<div id="scroll-btn" class="footer__row d-none">
 				<button @click="scroll()" class="back-to-top fixed"></button>
 			</div>
 			<div class="sports-partners-container">
@@ -1078,7 +1079,7 @@
 					<div style="position: absolute; z-index: 100">
 						<span
 							style="
-							width: 100px;
+								width: 100px;
 								display: flex;
 								align-items: center;
 								justify-content: center;
@@ -1425,5 +1426,9 @@
 	.vdp-datepicker__calendar-button.disabled {
 		color: #999;
 		cursor: default;
+	}
+
+	.d-none {
+		display: none;
 	}
 </style>
