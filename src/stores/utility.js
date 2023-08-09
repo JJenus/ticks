@@ -24,7 +24,6 @@ export const alert = {
 };
 
 export const util = {
-	avatar: "/assets/img/avatar/default-avatar.png",
 	settings: () => {
 		return {
 			currency: "USD",
@@ -45,16 +44,6 @@ export const util = {
 		});
 	},
 
-	backendApi: import.meta.env.VITE_BE_API,
-
-	resizeImg(uri, width = 100) {
-		if (uri) {
-			let uArr = uri.split(".com/");
-			return uArr.join(`.com/resize=width:${width}/`);
-		}
-		return null;
-	},
-
 	money(money) {
 		const config = inject("settings", {
 			currency: "USD",
@@ -67,5 +56,15 @@ export const util = {
 		}).format();
 		return amount;
 	},
+
+	customRound(number) {
+		const decimalPlaces = (number.toString().split('.')[1] || '').length;
+		
+		if (decimalPlaces <= 2 && parseFloat(number.toFixed(2)) % 1 < 0.01) {
+		  return parseInt(number.toFixed(0));
+		} else {
+		  return parseFloat(number.toFixed(2));
+		}
+	  }
 };
 

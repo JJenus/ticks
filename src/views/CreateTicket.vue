@@ -1,125 +1,125 @@
 <script setup>
-// import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js";
-import { onMounted, ref } from "vue";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import { bets } from "../stores/bets";
-import { alert } from "../stores/utility";
-import moment from "moment";
+	// import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js";
+	import { onMounted, ref } from "vue";
+	import VueDatePicker from "@vuepic/vue-datepicker";
+	import { bets } from "../stores/bets";
+	import { alert, util } from "../stores/utility";
+	import moment from "moment";
 
-const showNew = ref(true);
-const updateIndex = ref(false);
-const tickets = ref(bets.tickets.value);
+	const showNew = ref(true);
+	const updateIndex = ref(false);
+	const tickets = ref(bets.tickets.value);
 
-// localStorage.clear();
+	// localStorage.clear();
 
-// In case of a range picker, you'll receive [Date, Date]
-const format = (date) => {
-	const day = date.getDate();
-	const month = date.getMonth() + 1;
-	const year = date.getFullYear();
-	let hours = date.getHours();
-	let mins = date.getMinutes();
+	// In case of a range picker, you'll receive [Date, Date]
+	const format = (date) => {
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		let hours = date.getHours();
+		let mins = date.getMinutes();
 
-	if (mins < 10) mins = "0" + mins;
-	if (hours < 10) hours = "0" + hours;
+		if (mins < 10) mins = "0" + mins;
+		if (hours < 10) hours = "0" + hours;
 
-	return `${day}/${month}/${year} | ${hours}:${mins}`;
-};
+		return `${day}/${month}/${year} | ${hours}:${mins}`;
+	};
 
-function editGame(edit, index) {
-	ticket.value = edit;
-	showNew.value = true;
-	updateIndex.value = index;
-}
+	function editGame(edit, index) {
+		ticket.value = edit;
+		showNew.value = true;
+		updateIndex.value = index;
+	}
 
-function deleteTicket(id) {
-	bets.delete(id);
-	updateIndex.value = false;
-	tickets.value = bets.getTicks();
-}
+	function deleteTicket(id) {
+		bets.delete(id);
+		updateIndex.value = false;
+		tickets.value = bets.getTicks();
+	}
 
-function getTime() {
-	let max = 60;
-	let min = 50;
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
+	function getTime() {
+		let max = 60;
+		let min = 50;
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	}
 
-function getDateTime(cDate) {
-	return moment().format("DD/MM/YYYY | hh:mm");
-}
+	function getDateTime(cDate) {
+		return moment().format("DD/MM/YYYY | hh:mm");
+	}
 
-const alertDate = (i, data) => {
-	ticket.value.games[i].endDateTime = moment(data)
-		.add(1, "hour")
-		.add(getTime(), "minutes")
-		.toDate();
-};
+	const alertDate = (i, data) => {
+		ticket.value.games[i].endDateTime = moment(data)
+			.add(1, "hour")
+			.add(getTime(), "minutes")
+			.toDate();
+	};
 
-function getId() {
-	let max = 37299999999;
-	let min = 37200000000;
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
+	function getId() {
+		let max = 37299999999;
+		let min = 37200000000;
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	}
 
-const ticket = ref({
-	betStatus: "Win",
-	id: getId(),
-	fromTime: "10:18",
-	fromDate: "09/05/2023",
-	fromDateTime: new Date(),
-	bet: 50,
-	totalOdds: "72",
-	games: [],
-});
-
-function save() {
-	let totalOdds = 1;
-	ticket.value.games.map((bet) => {
-		bet.htScore = `${bet.scores.ht.home}:${bet.scores.ht.away}`;
-		bet.shfScore = `${bet.scores.sh.home}:${bet.scores.sh.away}`;
-		totalOdds *= Number(bet.odds);
-		return bet;
+	const ticket = ref({
+		betStatus: "Win",
+		id: getId(),
+		fromTime: "10:18",
+		fromDate: "09/05/2023",
+		fromDateTime: new Date(),
+		bet: 50,
+		totalOdds: "72",
+		games: [],
 	});
-	ticket.value.totalOdds = totalOdds;
-	bets.save(ticket.value, updateIndex.value);
-	updateIndex.value = false;
-	ticket.value.games = [];
-	addGame();
-	ticket.value.id = getId();
-}
 
-function addGame() {
-	ticket.value.games.push({
-		competition: "Australia Cup",
-		homeTeam: "Everton",
-		awayTeam: "Liverpool",
-		htScore: "none",
-		shfScore: "none",
-		scores: {
-			ht: {
-				home: 0,
-				away: 0,
+	function save() {
+		let totalOdds = 1;
+		ticket.value.games.map((bet) => {
+			bet.htScore = `${bet.scores.ht.home}:${bet.scores.ht.away}`;
+			bet.shfScore = `${bet.scores.sh.home}:${bet.scores.sh.away}`;
+			totalOdds *= Number(bet.odds);
+			return bet;
+		});
+		ticket.value.totalOdds = util.customRound(totalOdds);
+		bets.save(ticket.value, updateIndex.value);
+		updateIndex.value = false;
+		ticket.value.games = [];
+		addGame();
+		ticket.value.id = getId();
+	}
+
+	function addGame() {
+		ticket.value.games.push({
+			competition: "Australia Cup",
+			homeTeam: "Everton",
+			awayTeam: "Liverpool",
+			htScore: "none",
+			shfScore: "none",
+			scores: {
+				ht: {
+					home: 0,
+					away: 0,
+				},
+				sh: {
+					home: 0,
+					away: 0,
+				},
 			},
-			sh: {
-				home: 0,
-				away: 0,
-			},
-		},
-		odds: 0.0,
-		event: "Correct Score",
-		startDate: "09/05/2023",
-		startTime: "19:30",
-		startDateTime: new Date(),
-		gameStatus: "Game finished",
-		endDate: "09/05/2023",
-		endTime: "11:22",
-		endDateTime: new Date(),
+			odds: 0.0,
+			event: "Correct Score",
+			startDate: "09/05/2023",
+			startTime: "19:30",
+			startDateTime: new Date(),
+			gameStatus: "Game finished",
+			endDate: "09/05/2023",
+			endTime: "11:22",
+			endDateTime: new Date(),
+		});
+	}
+
+	onMounted(() => {
+		addGame();
 	});
-}
-
-onMounted(() => {
-	addGame();
-});
 </script>
 
 <template>
@@ -473,6 +473,6 @@ onMounted(() => {
 </template>
 
 <style>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css");
-@import "@vuepic/vue-datepicker/dist/main.css";
+	@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css");
+	@import "@vuepic/vue-datepicker/dist/main.css";
 </style>
